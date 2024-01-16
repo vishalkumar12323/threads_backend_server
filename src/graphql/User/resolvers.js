@@ -1,4 +1,8 @@
-import { mutations } from "./mutations.js";
-import { queries } from "./queries.js";
+const queries = {};
+const mutations = {
+  createUser: () => {
+    return "userID";
+  },
+};
 
 export const resolvers = { mutations, queries };

@@ -13,7 +13,7 @@ datasource db {
 model People {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   fristName String @map("frist_name")
-  lastName String @map("last_name")
+  lastName String? @map("last_name")
   email String @unique 
   userProfileImageURL String? @map("user_profile_image_url")
   password String 

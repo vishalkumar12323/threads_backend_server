@@ -1,6 +1,3 @@
 export const queries = `#graphql
-    type Query {
-        fristName String!
-        email String!
-    }
+    createToken(email: String! password: String!): String
 `;

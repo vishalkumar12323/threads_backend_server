@@ -1,5 +1,5 @@
 import { createHmac, randomBytes } from "node:crypto";
-import { Prisma } from "../lib/db.js";
+import { prisma } from "../lib/db.js";
 
 export const createUserPayload = {
   fristName: String,
@@ -24,7 +24,7 @@ class UserServices {
   static async createUser(payload = createUserPayload) {
     const { email, fristName, lastName, password } = payload;
     const { hashedPassword, salt } = this.generateHash(password);
-    return Prisma.people.create({
+    return prisma.people.create({
       data: {
         fristName,
         lastName,

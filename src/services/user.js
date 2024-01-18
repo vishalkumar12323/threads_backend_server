@@ -28,6 +28,10 @@ class UserServices {
   static async #findUser(email) {
     return await prisma.people.findUnique({ where: { email } });
   }
+  // find user by id.
+  static async findUserById(id) {
+    return await prisma.people.findUnique({ where: { id } });
+  }
   // create user in database.
   static async createUser(payload = createUserPayload) {
     const { email, fristName, lastName, password } = payload;
@@ -57,10 +61,6 @@ class UserServices {
     const token = jwt.sign(
       {
         id: user.id,
-        fristName: user.fristName,
-        lastName: user.lastName,
-        userProfileImageURL: user.userProfileImageURL,
-        email: user.email,
       },
       JWT_SECRET
     );

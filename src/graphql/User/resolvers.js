@@ -11,7 +11,9 @@ const queries = {
   },
   getCurrentLoggedInUser: async (_parent, _args, context) => {
     if (context && context.user) {
-      return context.user;
+      const id = context.user.id;
+      const user = await UserServices.findUserById(id);
+      return user;
     } else {
       throw new Error("i don't know who are you");
     }

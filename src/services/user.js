@@ -25,6 +25,7 @@ class UserServices {
     return { hashedPassword };
   }
 
+  // find user in mongodb with user email.
   static async #findUser(email) {
     return await prisma.people.findUnique({ where: { email } });
   }

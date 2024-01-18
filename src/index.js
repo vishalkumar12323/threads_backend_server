@@ -12,7 +12,13 @@ async function init() {
     res.json({ message: "Hello Threads GraphQL Server" });
   });
 
-  app.use("/graphql", express.json(), expressMiddleware(server));
+  app.use(
+    "/graphql",
+    express.json(),
+    expressMiddleware(server, async ({ req }) => {
+      console.log(req);
+    })
+  );
   app.listen(PORT, () => console.log(`server running on port:${PORT}`));
 }
 

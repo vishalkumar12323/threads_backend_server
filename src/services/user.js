@@ -24,7 +24,6 @@ class UserServices {
       .digest("hex");
     return { hashedPassword };
   }
-
   // find user in mongodb with user email.
   static async #findUser(email) {
     return await prisma.people.findUnique({ where: { email } });
@@ -50,17 +49,27 @@ class UserServices {
     const { email, password } = payload;
     const user = await this.#findUser(email);
     if (!user) throw new Error("user not found");
-
     const compareUserPassword = this.#generateHash(user.salt, password);
     if (compareUserPassword.hashedPassword !== user.password)
       throw new Error("Incorrect user email or password");
 
     // Generate Token
     const token = jwt.sign(
-      { id: user.id, name: user.fristName, email: user.email },
+      {
+        id: user.id,
+        fristName: user.fristName,
+        lastName: user.lastName,
+        userProfileImageURL: user.userProfileImageURL,
+        email: user.email,
+      },
       JWT_SECRET
     );
     return token;
+  }
+
+  // verify jwt token.
+  static verifyToken(token) {
+    return jwt.verify(token, JWT_SECRET);
   }
 }
 

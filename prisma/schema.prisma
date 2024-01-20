@@ -10,19 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model People {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  fristName String @map("frist_name")
-  lastName String @map("last_name")
-  email String @unique
-  password String
-  salt String
-  posts Post[]
+model People{
+   id String    @id @default(auto()) @map("_id") @db.ObjectId
+   fristName String @map("frist_name")
+   lastName String? @map("last_name")
+   email String @unique
+   userProfileImg String? @map("user_profile_image")
+   password String 
+   salt String
+   post Post[]
 
-  @@map("people")
+   @@map("people")
 }
-
-model Post {
+model Post{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String @map("post_title")
   description String @map("post_description")

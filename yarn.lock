@@ -868,11 +868,6 @@ path-to-regexp@0.1.7:
   resolved "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz"
   integrity sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==
 
-postgres@^3.4.3:
-  version "3.4.3"
-  resolved "https://registry.npmjs.org/postgres/-/postgres-3.4.3.tgz"
-  integrity sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==
-
 prisma@^5.8.1:
   version "5.8.1"
   resolved "https://registry.npmjs.org/prisma/-/prisma-5.8.1.tgz"

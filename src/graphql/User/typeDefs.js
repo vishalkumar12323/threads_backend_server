@@ -1,9 +1,10 @@
-export const typeDefs = `#graphql
-    type User {
-        id: ID!
-        fristName: String!
-        lastName: String
-        email: String!
-        userProfileImageURL: String
-    }
+import { gql } from "graphql-tag";
+export const typeDefs = `
+  type User {
+    id: ID!
+    fristName: String!
+    lastName: String
+    email: String!
+    userProfileImageURL: String
+  }
 `;

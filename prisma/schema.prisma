@@ -10,22 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model People {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  fristName String @map("frist_name")
+  lastName String @map("last_name")
+  email String @unique
+  password String
+  salt String
+  posts Post[]
+
+  @@map("people")
+}
+
 model Post {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String @map("post_title")
   description String @map("post_description")
-  author People? @relation(fields: [authorId], references: [id])
+  author People @relation(fields: [authorId], references: [id])
   authorId String @db.ObjectId
-}
 
-model People {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  fristName String @map("frist_name")
-  lastName String? @map("last_name")
-  email String @unique 
-  userProfileImageURL String? @map("user_profile_image_url")
-  password String 
-  salt String?
-  posts Post[]
+  @@map("post")
 }
-

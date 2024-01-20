@@ -1,8 +1,8 @@
 import { createHmac, randomBytes } from "node:crypto";
-import jwt from "jsonwebtoken";
 import { prisma } from "../lib/db.js";
-const JWT_SECRET = "#the@main$jwtsecret!";
-export const createUserPayload = {
+import jwt from "jsonwebtoken";
+
+export const newUserPayload = {
   fristName: String,
   lastName: String,
   email: String,
@@ -10,67 +10,33 @@ export const createUserPayload = {
   salt: String,
 };
 
-export const getUserTokenPayload = {
-  email: String,
-  password: String,
-};
-class UserServices {
+class UserService {
   constructor() {}
 
-  // hashing user password.
-  static #generateHash(salt, password) {
-    const hashedPassword = createHmac("sha256", salt)
+  // create hashed password using node-crypto package.
+  static #createHash(salt, password) {
+    const hashed_password = createHmac("sha256", salt)
       .update(password)
       .digest("hex");
-    return { hashedPassword };
+    return hashed_password;
   }
-  // find user in mongodb with user email.
-  static async #findUser(email) {
-    return await prisma.people.findUnique({ where: { email } });
-  }
-  // find user by id.
-  static async findUserById(id) {
-    return await prisma.people.findUnique({ where: { id } });
-  }
-  // create user in database.
-  static async createUser(payload = createUserPayload) {
-    const { email, fristName, lastName, password } = payload;
-    const createSalt = randomBytes(32).toString("hex");
-    const { hashedPassword } = this.#generateHash(createSalt, password);
-    return prisma.people.create({
+
+  // create new user in mongodb using prisma.
+  static async createUser(payload = newUserPayload) {
+    const { email, fristName, lastName, password, salt } = payload;
+    const newSalt = randomBytes(20).toString("hex");
+    const newHash = this.#createHash(newSalt, password);
+
+    return await prisma.people.create({
       data: {
         fristName,
         lastName,
         email,
-        salt: createSalt,
-        password: hashedPassword,
+        password: newHash,
+        salt: newSalt,
       },
     });
   }
-
-  // createToken
-  static async createToken(payload = getUserTokenPayload) {
-    const { email, password } = payload;
-    const user = await this.#findUser(email);
-    if (!user) throw new Error("user not found");
-    const compareUserPassword = this.#generateHash(user.salt, password);
-    if (compareUserPassword.hashedPassword !== user.password)
-      throw new Error("Incorrect user email or password");
-
-    // Generate Token
-    const token = jwt.sign(
-      {
-        id: user.id,
-      },
-      JWT_SECRET
-    );
-    return token;
-  }
-
-  // verify jwt token.
-  static verifyToken(token) {
-    return jwt.verify(token, JWT_SECRET);
-  }
 }
 
-export { UserServices };
+export { UserService };

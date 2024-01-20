@@ -1,11 +1,11 @@
 import { ApolloServer } from "@apollo/server";
-import { User } from "./User/user.js";
+import { User } from "../graphql/User/User.js";
 
-async function apolloServer() {
-  const server = new ApolloServer({
+const createApolloGraphqlServer = async () => {
+  const apolloServer = new ApolloServer({
     typeDefs: `
-        ${User.typeDefs}
-        type Query {
+        ${User.typedefs}
+        type Query{
             ${User.queries}
         }
         type Mutation {
@@ -14,14 +14,14 @@ async function apolloServer() {
     `,
     resolvers: {
       Query: {
-        ...User.resolvers.queries,
+        ...User.res.queries,
       },
       Mutation: {
-        ...User.resolvers.mutations,
+        ...User.res.resolvers,
       },
     },
   });
-  return server;
-}
+  return apolloServer;
+};
 
-export default apolloServer;
+export { createApolloGraphqlServer };

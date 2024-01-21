@@ -4,4 +4,9 @@ export const typedefs = `#graphql
         lastName: String
         email: String
     }
+    type Post {
+        title: String
+        description: String
+        authorId: String
+    }
 `;
